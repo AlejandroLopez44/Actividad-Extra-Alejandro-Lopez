@@ -1,4 +1,4 @@
-import { getProducts, getCart, saveCart } from '../storage/database.js';
+import { getProducts, getCart, saveCart, clearCart, getCurrentSession } from '../storage/database.js';
 
 export function initCart() {
     updateCartBadge();
@@ -30,9 +30,12 @@ export function initCart() {
             }
         });
     }
+
+    // 3. Iniciar la lógica del Checkout
+    setupCheckout();
 }
 
-// --- FUNCIONES CORE ---
+// --- FUNCIONES CORE DEL CARRITO ---
 
 function addToCart(productId) {
     const products = getProducts();
@@ -41,7 +44,6 @@ function addToCart(productId) {
     const productToAdd = products.find(p => p.id === productId);
     if (!productToAdd) return;
 
-    // Verificar si ya está en el carrito
     const existingItem = cart.find(item => item.id === productId);
 
     if (existingItem) {
@@ -68,7 +70,6 @@ function updateQuantity(productId, change) {
     
     if (item) {
         item.quantity += change;
-        // Si la cantidad baja a 0 o menos, eliminamos el producto
         if (item.quantity <= 0) {
             cart = cart.filter(i => i.id !== productId);
         }
@@ -86,13 +87,77 @@ function removeFromCart(productId) {
     renderCart();
 }
 
+// --- FUNCIONES CORE DE CHECKOUT ---
+
+function setupCheckout() {
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const checkoutForm = document.getElementById('checkout-form');
+
+    // Transición del Carrito al Formulario de Pago
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            const cart = getCart();
+            if (cart.length === 0) return;
+
+            // 1. Cerrar modal del carrito mediante la API de Bootstrap
+            const cartModalEl = document.getElementById('cartModal');
+            const cartModal = bootstrap.Modal.getInstance(cartModalEl);
+            if (cartModal) cartModal.hide();
+
+            // 2. Autocompletar datos del usuario activo
+            const session = getCurrentSession();
+            if (session) {
+                document.getElementById('checkout-name').value = session.name;
+                document.getElementById('checkout-address').value = session.address;
+            }
+
+            // 3. Abrir modal de checkout
+            const checkoutModalEl = document.getElementById('checkoutModal');
+            let checkoutModal = bootstrap.Modal.getInstance(checkoutModalEl);
+            if (!checkoutModal) checkoutModal = new bootstrap.Modal(checkoutModalEl);
+            checkoutModal.show();
+        });
+    }
+
+    // Procesamiento del Pago Simulado
+    if (checkoutForm) {
+        checkoutForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Evitar que la página se recargue
+
+            // Simulamos el tiempo de procesamiento con un pequeño retraso
+            const btnSubmit = checkoutForm.querySelector('button[type="submit"]');
+            const originalText = btnSubmit.textContent;
+            btnSubmit.textContent = '⏳ Procesando...';
+            btnSubmit.disabled = true;
+
+            setTimeout(() => {
+                alert('✅ ¡Pago exitoso! Tu pedido está en camino.');
+                
+                // Vaciar el carrito en la base de datos visualmente
+                clearCart();
+                updateCartBadge();
+                renderCart();
+
+                // Cerrar modal de checkout
+                const checkoutModalEl = document.getElementById('checkoutModal');
+                const checkoutModal = bootstrap.Modal.getInstance(checkoutModalEl);
+                if (checkoutModal) checkoutModal.hide();
+
+                // Restaurar formulario
+                checkoutForm.reset();
+                btnSubmit.textContent = originalText;
+                btnSubmit.disabled = false;
+            }, 1500);
+        });
+    }
+}
+
 // --- FUNCIONES VISUALES ---
 
 function updateCartBadge() {
     const cart = getCart();
     const badge = document.getElementById('cart-badge');
     if (badge) {
-        // Sumamos la cantidad de todos los ítems
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         badge.textContent = totalItems;
     }
