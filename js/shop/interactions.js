@@ -1,5 +1,4 @@
-import { getCurrentSession, getUsers, saveUsers } from '../storage/database.js';
-
+import { getCurrentSession, getUsers, saveUsers, setCurrentSession } from '../storage/database.js';
 export function initInteractions() {
     setupDarkMode();
     setupProfileManagement();
@@ -63,9 +62,9 @@ function setupProfileManagement() {
         });
         saveUsers(updatedUsers);
 
-        // 2. Actualizar la sesión activa (sessionStorage)
+        // 2. Actualizar la sesión activa (sessionStorage) con la función correcta
         session.address = newAddress;
-        sessionStorage.setItem('ucab_session', JSON.stringify(session));
+        setCurrentSession(session);
 
         alert('✅ Perfil actualizado con éxito.');
 

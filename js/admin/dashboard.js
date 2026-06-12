@@ -12,16 +12,16 @@ function loadAdminProfile() {
         document.getElementById('admin-avatar').src = session.avatar;
     }
 }
-
 export function renderProductsTable() {
-    const products = getProducts();
+    // PROTECCIÓN: Si getProducts() devuelve null o undefined, usa un arreglo vacío
+    const products = getProducts() || [];
     const tbody = document.getElementById('admin-table-body');
     
     if (!tbody) return;
     
     tbody.innerHTML = '';
     
-    if (!products || products.length === 0) {
+    if (products.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No hay productos en el inventario.</td></tr>';
         return;
     }

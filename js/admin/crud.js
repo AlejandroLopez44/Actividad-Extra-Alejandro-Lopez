@@ -10,7 +10,7 @@ export function initCRUD() {
 
     // 1. Preparar modal para AÑADIR (limpiar campos)
     btnAddProduct.addEventListener('click', () => {
-        document.getElementById('product-form').reset();
+        productForm.reset();
         document.getElementById('prod-id').value = '';
         document.getElementById('productModalLabel').textContent = 'Añadir Nuevo Producto';
     });
@@ -23,7 +23,6 @@ export function initCRUD() {
 
     // 3. Escuchar clics en los botones de Editar y Eliminar de la tabla
     tableBody.addEventListener('click', (e) => {
-        // Encontrar el botón que fue clickeado
         const target = e.target.closest('button');
         if (!target) return;
 
@@ -44,7 +43,8 @@ function handleFormSubmit() {
     const category = document.getElementById('prod-category').value.trim();
     const image = document.getElementById('prod-image').value.trim();
 
-    let products = getProducts();
+    // LEER SIEMPRE LOS PRODUCTOS ACTUALIZADOS (Garantiza un arreglo si viene null)
+    let products = getProducts() || [];
 
     if (idInput) {
         // MODO EDICIÓN
@@ -56,7 +56,6 @@ function handleFormSubmit() {
         }
     } else {
         // MODO CREACIÓN
-        // Calculamos el ID más alto y le sumamos 1
         const maxId = products.reduce((max, p) => (p.id > max ? p.id : max), 0);
         const newProduct = {
             id: maxId + 1,
@@ -69,23 +68,36 @@ function handleFormSubmit() {
         alert('✅ Nuevo producto añadido al inventario.');
     }
 
-    // Guardar en disco duro y redibujar la tabla
+    // 1. Guardar de inmediato en el LocalStorage
     saveProducts(products);
+    
+    // 2. RE-REDIBUJAR LA TABLA ACTUALIZADA EN TIEMPO REAL
     renderProductsTable();
 
-    // Ocultar modal
+    // 3. CERRAR EL MODAL DE FORMA SEGURA (Evitando bloqueos de JS)
     const modalEl = document.getElementById('productModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    if (modalInstance) modalInstance.hide();
+    if (modalEl && window.bootstrap) {
+        const modalInstance = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+    }
+
+    // 4. LIMPIEZA MANUAL DE RESPALDO (Por si Bootstrap deja residuos oscuros en pantalla)
+    setTimeout(() => {
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(b => b.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }, 150);
 }
 
 function prepareEdit(id) {
-    const products = getProducts();
+    const products = getProducts() || [];
     const productToEdit = products.find(p => p.id === id);
 
     if (!productToEdit) return;
 
-    // Llenar el formulario con los datos actuales
+    // Llenar el formulario con la información guardada
     document.getElementById('prod-id').value = productToEdit.id;
     document.getElementById('prod-title').value = productToEdit.title;
     document.getElementById('prod-price').value = productToEdit.price;
@@ -94,19 +106,23 @@ function prepareEdit(id) {
 
     document.getElementById('productModalLabel').textContent = 'Editar Producto';
 
-    // Mostrar el modal mediante JS
+    // Mostrar el modal recuperando o creando la instancia única limpia
     const modalEl = document.getElementById('productModal');
-    let modalInstance = bootstrap.Modal.getInstance(modalEl);
-    if (!modalInstance) modalInstance = new bootstrap.Modal(modalEl);
-    modalInstance.show();
+    if (window.bootstrap) {
+        const modalInstance = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+        if (modalInstance) modalInstance.show();
+    }
 }
 
 function deleteProduct(id) {
     if (!confirm('⚠️ ¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.')) return;
 
-    let products = getProducts();
+    let products = getProducts() || [];
     products = products.filter(p => p.id !== id);
 
     saveProducts(products);
+    
+    // REDIBUJAR
     renderProductsTable();
+    alert('🗑️ Producto eliminado del inventario.');
 }
