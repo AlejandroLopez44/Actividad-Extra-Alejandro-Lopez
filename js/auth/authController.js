@@ -182,4 +182,19 @@ document.addEventListener('DOMContentLoaded', () => {
         forgotSubmitBtn.className = "btn btn-warning w-100 py-2 mb-3 text-white";
         emailToRecover = '';
     }
+
+    // 5. MODO NOCHE (Opcional en la pantalla de Login)
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const htmlElement = document.documentElement;
+            if (htmlElement.getAttribute('data-bs-theme') === 'light') {
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+                themeToggle.textContent = '☀️ Modo Día';
+            } else {
+                htmlElement.setAttribute('data-bs-theme', 'light');
+                themeToggle.textContent = '🌙 Modo Noche';
+            }
+        });
+    }
 });
