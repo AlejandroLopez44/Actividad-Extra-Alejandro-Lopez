@@ -4,6 +4,8 @@ import { checkAccessControl } from './router.js';
 import { initCatalog } from './shop/catalog.js';
 import { initCart } from './shop/cart.js';
 import { initInteractions } from './shop/interactions.js';
+import { initDashboard } from './admin/dashboard.js';
+import { initCRUD } from './admin/crud.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
@@ -60,4 +62,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCatalog();
     initCart();
     initInteractions();
+    initDashboard();
+    initCRUD();
 });

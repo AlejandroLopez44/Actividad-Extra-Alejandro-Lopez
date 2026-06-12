@@ -13,7 +13,7 @@ export function getProducts() {
 
 // Función para guardar o sobreescribir los productos
 export function saveProducts(products) {
-    localStorage.setItem(DB_KEY, JSON.stringify(products));
+    localStorage.setItem(PRODUCTS_KEY, JSON.stringify(products));
 }
 
 // --- GESTIÓN DE USUARIOS REGISTRADOS ---
