@@ -29,14 +29,14 @@ export function checkAccessControl() {
 
         // REGLA ESTRICTA: Un Cliente NO puede entrar a las páginas de Administración
         if (isAdminPage && session.role !== 'Administrador') {
-            alert('🚫 Error: No tienes permisos de Administrador para acceder a este módulo.');
+            alert('Error: No tienes permisos de Administrador para acceder a este módulo.');
             window.location.href = 'index.html';
             return;
         }
 
         // REGLA ESTRICTA: Un Administrador NO debe navegar en el catálogo de clientes
         if (isClientPage && session.role !== 'Cliente') {
-            alert('🔄 Redirigiendo al Panel de Control de Administrador.');
+            alert('Redirigiendo al Panel de Control de Administrador.');
             window.location.href = 'admin.html';
             return;
         }
