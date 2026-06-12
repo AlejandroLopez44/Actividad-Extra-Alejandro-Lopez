@@ -6,10 +6,9 @@
     <title>Panel de Administración - UCAB Store</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
-<body class="bg-body-tertiary">
+<body class="bg-body-tertiary d-flex flex-column min-vh-100">
 
-    <!-- Navbar del Administrador -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm">
         <div class="container-fluid px-4">
             <a class="navbar-brand fw-bold" href="#">⚙️ UCAB Admin Panel</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
@@ -19,14 +18,16 @@
             <div class="collapse navbar-collapse" id="adminNavbar">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item me-3">
-                        <button id="theme-toggle" class="btn btn-outline-light btn-sm">🌙 Modo Noche</button>
+                        <button id="theme-toggle" class="btn btn-secondary btn-sm">🌙 Modo Noche</button>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
-                            <img id="admin-avatar" src="" alt="Admin" class="rounded-circle border border-2 border-white" width="30" height="30">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                            <img id="admin-avatar" src="" alt="Admin" class="rounded-circle border border-2 border-secondary" width="30" height="30">
                             <span id="admin-name-display" class="ms-1">Administrador</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileModal">⚙️ Mi Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item text-danger" href="#" id="logout-btn">🚪 Cerrar Sesión</a></li>
                         </ul>
                     </li>
@@ -35,17 +36,14 @@
         </div>
     </nav>
 
-    <!-- Contenido Principal -->
-    <main class="container py-5">
+    <main class="container py-5 flex-grow-1">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold mb-0">📦 Gestión de Inventario</h2>
-            <!-- Botón para abrir el modal de Creación -->
             <button class="btn btn-success shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#productModal" id="btn-add-product">
                 ➕ Nuevo Producto
             </button>
         </div>
 
-        <!-- Tabla de Productos -->
         <div class="card border-0 shadow-sm">
             <div class="card-body p-0 overflow-auto">
                 <table class="table table-hover align-middle mb-0 text-center">
@@ -60,14 +58,12 @@
                         </tr>
                     </thead>
                     <tbody id="admin-table-body">
-                        <!-- JS inyectará las filas aquí -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
     </main>
 
-    <!-- ================= MODAL CRUD (CREAR / EDITAR) ================= -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
@@ -77,7 +73,6 @@
                 </div>
                 <div class="modal-body p-4">
                     <form id="product-form">
-                        <!-- Input oculto para saber si estamos editando (guardará el ID) -->
                         <input type="hidden" id="prod-id">
                         
                         <div class="mb-3">
@@ -91,7 +86,6 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-semibold">Categoría</label>
-                                <!-- Lo dejaremos como texto libre, o podrías usar un select -->
                                 <input type="text" id="prod-category" class="form-control" required>
                             </div>
                         </div>
@@ -106,8 +100,45 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-dark text-white border-0">
+                    <h5 class="modal-title">⚙️ Mi Perfil</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 text-center">
+                    <img id="profile-mdl-avatar" src="" alt="Avatar" class="rounded-circle mb-3 border border-3 border-secondary" width="90" height="90">
+                    <h4 id="profile-mdl-name" class="fw-bold mb-1">Nombre</h4>
+                    <p id="profile-mdl-email" class="text-body-secondary small mb-4">correo@ucab.ve</p>
+                    
+                    <form id="profile-form" class="text-start">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Dirección de Entrega Actual</label>
+                            <textarea id="profile-mdl-address" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100 py-2 fw-bold">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-0">© 2026 E-Commerce UCAB. Todos los derechos reservados.</p>
+            <div class="my-2">
+                <a href="#" class="text-white me-3">Facebook</a>
+                <a href="#" class="text-white me-3">Instagram</a>
+                <a href="#" class="text-white">Políticas de Privacidad</a>
+            </div>
+            <div>
+                <span id="network-status" class="badge bg-success">🟢 Online</span>
+            </div>
+        </div>
+    </footer>
+
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="js/admin.js"></script> <!-- Archivo JS nuevo para el admin -->
+    <script type="module" src="js/admin.js"></script> 
 </body>
 </html>

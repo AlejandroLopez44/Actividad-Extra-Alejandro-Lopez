@@ -1,17 +1,15 @@
-import { getProducts, getUsers, saveUsers, getCurrentSession } from './storage/database.js'; // <-- Importamos getCurrentSession
+import { getProducts, getUsers, saveUsers, getCurrentSession } from './storage/database.js';
 import { fetchInitialProducts } from './api/apiService.js';
 import { checkAccessControl } from './router.js'; 
 import { initCatalog } from './shop/catalog.js';
 import { initCart } from './shop/cart.js';
 import { initInteractions } from './shop/interactions.js';
-import { initDashboard } from './admin/dashboard.js';
-import { initCRUD } from './admin/crud.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
     checkAccessControl();
     
-    console.log('Inicializando E-commerce UCAB...');
+    console.log('Inicializando E-commerce UCAB (Módulo Cliente)...');
     
     // 1. Inicialización de Productos
     let products = getProducts();
@@ -54,14 +52,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userAvatar = document.getElementById('user-avatar');
 
     if (session && userNameDisplay && userAvatar) {
-        // Mostramos solo el primer nombre (cortando por el espacio) para que quede estético
+        // Mostramos solo el primer nombre
         userNameDisplay.textContent = session.name.split(' ')[0];
         userAvatar.src = session.avatar;
     }
 
+    // 4. INICIAR MÓDULOS SOLO DE CLIENTE
     initCatalog();
     initCart();
     initInteractions();
-    initDashboard();
-    initCRUD();
 });
