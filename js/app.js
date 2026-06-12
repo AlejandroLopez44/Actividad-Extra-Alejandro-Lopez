@@ -61,4 +61,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCatalog();
     initCart();
     initInteractions();
+
+    // REGISTRO DEL SERVICE WORKER (Para Modo Offline y PWA)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('🌐 Modo Offline activado con éxito.'))
+            .catch(err => console.error('Error al registrar Service Worker:', err));
+    }
 });

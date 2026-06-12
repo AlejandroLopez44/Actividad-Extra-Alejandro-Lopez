@@ -40,18 +40,18 @@ export function clearSession() {
     sessionStorage.removeItem(SESSION_KEY);
 }
 
-// --- GESTIÓN DEL CARRITO (sessionStorage) ---
+// --- GESTIÓN DEL CARRITO ---
 const CART_KEY = 'ucab_cart';
 
 export function getCart() {
-    const data = sessionStorage.getItem(CART_KEY);
+    const data = localStorage.getItem(CART_KEY);
     return data ? JSON.parse(data) : [];
 }
 
 export function saveCart(cart) {
-    sessionStorage.setItem(CART_KEY, JSON.stringify(cart));
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
 export function clearCart() {
-    sessionStorage.removeItem(CART_KEY);
+    localStorage.removeItem(CART_KEY);
 }
