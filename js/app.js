@@ -2,6 +2,7 @@ import { getProducts, getUsers, saveUsers, getCurrentSession } from './storage/d
 import { fetchInitialProducts } from './api/apiService.js';
 import { checkAccessControl } from './router.js'; 
 import { initCatalog } from './shop/catalog.js';
+import { initCart } from './shop/cart.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
@@ -56,4 +57,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     initCatalog();
+    initCart();
 });
