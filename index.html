@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Commerce UCAB - Catálogo</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">UCAB Store</a>
+            <a class="navbar-brand fw-bold" href="#">🛒 UCAB Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,7 +22,7 @@
                     </li>
                     <li class="nav-item dropdown me-3">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <img id="user-avatar" src="" alt="Avatar" class="rounded-circle" width="30" height="30">
+                            <img id="user-avatar" src="" alt="Avatar" class="rounded-circle border border-2 border-secondary" width="30" height="30">
                             <span id="user-name-display">Usuario</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -34,7 +33,7 @@
                     </li>
                     <li class="nav-item">
                         <button class="btn btn-warning position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
-                            Carrito
+                            🛒 Carrito
                             <span id="cart-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                         </button>
                     </li>
@@ -44,7 +43,7 @@
     </nav>
 
     <main>
-        <section class="bg-primary text-white text-center py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1472851294608-062f824d29cc') center/cover;">
+        <section class="bg-dark text-white text-center py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1472851294608-062f824d29cc') center/cover;">
             <div class="container py-5">
                 <h1 class="display-4 fw-bold">Tecnología y Estilo a tu Alcance</h1>
                 <p class="lead mb-4">Descubre los mejores productos seleccionados especialmente para ti, sin necesidad de internet.</p>
@@ -52,7 +51,7 @@
             </div>
         </section>
 
-        <section class="py-5 bg-light" id="beneficios">
+        <section class="py-5 bg-light border-bottom" id="beneficios">
             <div class="container">
                 <div class="row text-center">
                     <div class="col-md-4 mb-3">
@@ -76,14 +75,14 @@
 
         <section class="py-5">
             <div class="container">
-                <h2 class="text-center mb-4">Productos Destacados</h2>
+                <h2 class="text-center mb-4">⭐ Productos Destacados</h2>
                 <div id="featured-products-container" class="row justify-content-center"></div>
             </div>
         </section>
 
         <section id="catalogo" class="py-5 bg-light border-top">
             <div class="container">
-                <h2 class="mb-4">Nuestro Catálogo</h2>
+                <h2 class="mb-4">🛍️ Nuestro Catálogo</h2>
                 
                 <div class="row mb-4">
                     <div class="col-md-6 mb-2">
@@ -105,27 +104,27 @@
                 </div>
 
                 <div id="catalog-container" class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-                    </div>
+                </div>
             </div>
         </section>
 
         <section class="py-5 text-center">
             <div class="container">
-                <h2 class="mb-4">Lo que dicen nuestros clientes</h2>
+                <h2 class="mb-4">🗣️ Lo que dicen nuestros clientes</h2>
                 <div class="row mb-5">
                     <div class="col-md-4">
-                        <div class="card shadow-sm"><div class="card-body">"¡Increíble que pueda agregar al carrito sin saldo de datos! 10/10" <br><strong>- María G.</strong></div></div>
+                        <div class="card shadow border-0"><div class="card-body">"¡Increíble que pueda agregar al carrito sin saldo de datos! 10/10" <br><strong>- María G.</strong></div></div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card shadow-sm"><div class="card-body">"La interfaz es súper rápida y el modo oscuro salva mis ojos de noche." <br><strong>- Carlos P.</strong></div></div>
+                        <div class="card shadow border-0"><div class="card-body">"La interfaz es súper rápida y el modo oscuro salva mis ojos de noche." <br><strong>- Carlos P.</strong></div></div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card shadow-sm"><div class="card-body">"Excelente filtro de búsqueda, encontré mi laptop en 2 segundos." <br><strong>- Ana V.</strong></div></div>
+                        <div class="card shadow border-0"><div class="card-body">"Excelente filtro de búsqueda, encontré mi laptop en 2 segundos." <br><strong>- Ana V.</strong></div></div>
                     </div>
                 </div>
 
-                <div class="card bg-primary text-white p-4 mx-auto" style="max-width: 600px;">
-                    <h4>Suscríbete al Newsletter</h4>
+                <div class="card bg-primary text-white p-4 mx-auto border-0 shadow" style="max-width: 600px;">
+                    <h4>📩 Suscríbete al Newsletter</h4>
                     <form class="d-flex mt-3">
                         <input type="email" class="form-control me-2" placeholder="tu@correo.com" required>
                         <button class="btn btn-dark" type="submit">Suscribirme</button>
@@ -151,5 +150,5 @@
 
     <script src="js/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/app.js"></script>
-    </body>
+</body>
 </html>

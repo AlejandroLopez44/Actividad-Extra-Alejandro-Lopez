@@ -1,6 +1,6 @@
-import { getProducts, getUsers, saveUsers } from './storage/database.js';
+import { getProducts, getUsers, saveUsers, getCurrentSession } from './storage/database.js'; // <-- Importamos getCurrentSession
 import { fetchInitialProducts } from './api/apiService.js';
-import { checkAccessControl } from './router.js'; // <-- Nueva importación
+import { checkAccessControl } from './router.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     console.log('Inicializando E-commerce UCAB...');
     
-    // 1. Inicialización de Productos (El código que ya tenías)
+    // 1. Inicialización de Productos
     let products = getProducts();
     if (!products) {
         console.log('No hay productos locales. Consultando FakeStoreAPI...');
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Productos cargados desde el localStorage.');
     }
 
-    // 2. Inicialización de Usuarios de Prueba (El código que ya tenías)
+    // 2. Inicialización de Usuarios de Prueba
     let users = getUsers();
     if (users.length === 0) {
         console.log('Creando usuarios de prueba por defecto...');
@@ -41,5 +41,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         ];
         saveUsers(defaultUsers);
         console.log('Cuentas de prueba listas.');
+    }
+
+    // 3. ACTUALIZAR EL AVATAR Y NOMBRE EN LA NAVBAR
+    const session = getCurrentSession();
+    const userNameDisplay = document.getElementById('user-name-display');
+    const userAvatar = document.getElementById('user-avatar');
+
+    if (session && userNameDisplay && userAvatar) {
+        // Mostramos solo el primer nombre (cortando por el espacio) para que quede estético
+        userNameDisplay.textContent = session.name.split(' ')[0];
+        userAvatar.src = session.avatar;
     }
 });
