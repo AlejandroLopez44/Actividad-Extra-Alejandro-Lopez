@@ -1,6 +1,7 @@
 import { getProducts, getUsers, saveUsers, getCurrentSession } from './storage/database.js'; // <-- Importamos getCurrentSession
 import { fetchInitialProducts } from './api/apiService.js';
 import { checkAccessControl } from './router.js'; 
+import { initCatalog } from './shop/catalog.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 password: "admin123",
                 role: "Administrador",
                 avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=Hermes",
-                address: "Sede Montalbán - Módulo 4"
+                address: "UCAB Sede Montalbán - Módulo 5"
             },
             {
                 name: "Alejandro López",
@@ -53,4 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         userNameDisplay.textContent = session.name.split(' ')[0];
         userAvatar.src = session.avatar;
     }
+
+    initCatalog();
 });
