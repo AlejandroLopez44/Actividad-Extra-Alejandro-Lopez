@@ -3,6 +3,7 @@ import { fetchInitialProducts } from './api/apiService.js';
 import { checkAccessControl } from './router.js'; 
 import { initCatalog } from './shop/catalog.js';
 import { initCart } from './shop/cart.js';
+import { initInteractions } from './shop/interactions.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // 0. EJECUTAR EL GUARDIÁN DE SEGURIDAD ANTES QUE NADA
@@ -58,4 +59,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     initCatalog();
     initCart();
+    initInteractions();
 });
